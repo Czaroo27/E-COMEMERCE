@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react"
+import React from "react";
 
 import {
   Area,
@@ -21,7 +21,13 @@ import {
 import { salesData, products } from "@/lib/data";
 import type { Product, ProductCategory, SalesData } from "@/lib/types";
 import { formatPrice } from "@/lib/types";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import {
   ChartContainer,
   ChartTooltip,
@@ -66,7 +72,10 @@ const chartConfig: Readonly<ChartConfig> = {
 type RequiredSalesData = Required<SalesData>;
 
 // ========== TypeScript: Partial generic in use ==========
-function mergeSalesData(base: SalesData, update: Partial<SalesData>): RequiredSalesData {
+function mergeSalesData(
+  base: SalesData,
+  update: Partial<SalesData>,
+): RequiredSalesData {
   return { ...base, ...update } as RequiredSalesData;
 }
 
@@ -91,7 +100,7 @@ async function fetchDashboardStats(): Promise<{
 function formatValue(value: number): string;
 function formatValue(value: string): string;
 function formatValue(value: number | string): string {
-  if (typeof value === 'number') {
+  if (typeof value === "number") {
     return `$${value.toFixed(2)}`;
   }
   return value.toUpperCase();
@@ -99,7 +108,12 @@ function formatValue(value: number | string): string {
 
 // ========== TypeScript: Type predicate ==========
 function isSalesData(obj: any): obj is SalesData {
-  return obj && typeof obj.month === 'string' && typeof obj.revenue === 'number' && typeof obj.orders === 'number';
+  return (
+    obj &&
+    typeof obj.month === "string" &&
+    typeof obj.revenue === "number" &&
+    typeof obj.orders === "number"
+  );
 }
 
 // Category distribution data
@@ -129,16 +143,16 @@ function StatCard({
   icon: React.ElementType;
 }) {
   return (
-    <Card className="border border-border">
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">
+    <Card className='border border-border'>
+      <CardHeader className='flex flex-row items-center justify-between pb-2'>
+        <CardTitle className='text-sm font-medium text-muted-foreground'>
           {title}
         </CardTitle>
-        <Icon className="h-4 w-4 text-muted-foreground" />
+        <Icon className='h-4 w-4 text-muted-foreground' />
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold text-foreground">{value}</div>
-        <p className="text-xs text-muted-foreground">{description}</p>
+        <div className='text-2xl font-bold text-foreground'>{value}</div>
+        <p className='text-xs text-muted-foreground'>{description}</p>
       </CardContent>
     </Card>
   );
@@ -160,29 +174,29 @@ export function DashboardView() {
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className='flex flex-col gap-6'>
       {/* Stats cards */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
         <StatCard
           title={formatValue("Przychod")}
           value={formatPrice(stats.totalRevenue)}
-          description="+12.5% od poprzedniego miesiaca"
+          description='+12.5% od poprzedniego miesiaca'
           icon={DollarSign}
         />
         <StatCard
-          title="Zamowienia"
+          title='Zamowienia'
           value={stats.totalOrders.toString()}
-          description="+8.2% od poprzedniego miesiaca"
+          description='+8.2% od poprzedniego miesiaca'
           icon={ShoppingCart}
         />
         <StatCard
-          title="Srednia wartosc"
+          title='Srednia wartosc'
           value={formatPrice(stats.avgOrderValue)}
-          description="Na zamowienie"
+          description='Na zamowienie'
           icon={TrendingUp}
         />
         <StatCard
-          title="Produkty"
+          title='Produkty'
           value={stats.totalProducts.toString()}
           description={`${products.filter((p) => p.inStock).length} dostepnych`}
           icon={Package}
@@ -190,44 +204,49 @@ export function DashboardView() {
       </div>
 
       {/* Charts grid */}
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className='grid gap-6 lg:grid-cols-2'>
         {/* ========== Shadcn: Area Chart ========== */}
-        <Card className="border border-border">
+        <Card className='border border-border'>
           <CardHeader>
-            <CardTitle className="text-foreground">Przychod miesieczny</CardTitle>
+            <CardTitle className='text-foreground'>
+              Przychod miesieczny
+            </CardTitle>
             <CardDescription>
               Przychod ze sprzedazy w ostatnich 6 miesiacach
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={chartConfig} className="h-[300px] w-full">
+            <ChartContainer config={chartConfig} className='h-[300px] w-full'>
               <AreaChart
                 data={salesData}
                 margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
               >
                 <defs>
-                  <linearGradient id="fillRevenue" x1="0" y1="0" x2="0" y2="1">
+                  <linearGradient id='fillRevenue' x1='0' y1='0' x2='0' y2='1'>
                     <stop
-                      offset="5%"
-                      stopColor="var(--color-revenue)"
+                      offset='5%'
+                      stopColor='var(--color-revenue)'
                       stopOpacity={0.8}
                     />
                     <stop
-                      offset="95%"
-                      stopColor="var(--color-revenue)"
+                      offset='95%'
+                      stopColor='var(--color-revenue)'
                       stopOpacity={0.1}
                     />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-                <XAxis dataKey="month" className="text-xs" />
-                <YAxis className="text-xs" />
+                <CartesianGrid
+                  strokeDasharray='3 3'
+                  className='stroke-border'
+                />
+                <XAxis dataKey='month' className='text-xs' />
+                <YAxis className='text-xs' />
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <Area
-                  type="monotone"
-                  dataKey="revenue"
-                  stroke="var(--color-revenue)"
-                  fill="url(#fillRevenue)"
+                  type='monotone'
+                  dataKey='revenue'
+                  stroke='var(--color-revenue)'
+                  fill='url(#fillRevenue)'
                   strokeWidth={2}
                 />
               </AreaChart>
@@ -236,26 +255,31 @@ export function DashboardView() {
         </Card>
 
         {/* Bar chart for orders */}
-        <Card className="border border-border">
+        <Card className='border border-border'>
           <CardHeader>
-            <CardTitle className="text-foreground">Zamowienia miesieczne</CardTitle>
+            <CardTitle className='text-foreground'>
+              Zamowienia miesieczne
+            </CardTitle>
             <CardDescription>
               Liczba zamowien w ostatnich 6 miesiacach
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={chartConfig} className="h-[300px] w-full">
+            <ChartContainer config={chartConfig} className='h-[300px] w-full'>
               <BarChart
                 data={salesData}
                 margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
               >
-                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-                <XAxis dataKey="month" className="text-xs" />
-                <YAxis className="text-xs" />
+                <CartesianGrid
+                  strokeDasharray='3 3'
+                  className='stroke-border'
+                />
+                <XAxis dataKey='month' className='text-xs' />
+                <YAxis className='text-xs' />
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <Bar
-                  dataKey="orders"
-                  fill="var(--color-orders)"
+                  dataKey='orders'
+                  fill='var(--color-orders)'
                   radius={[4, 4, 0, 0]}
                 />
               </BarChart>
@@ -265,72 +289,78 @@ export function DashboardView() {
       </div>
 
       {/* Products table with Popover */}
-      <Card className="border border-border">
+      <Card className='border border-border'>
         <CardHeader>
-          <CardTitle className="text-foreground">Wszystkie produkty</CardTitle>
+          <CardTitle className='text-foreground'>Wszystkie produkty</CardTitle>
           <CardDescription>
             Lista produktow w sklepie z szczegolami
           </CardDescription>
         </CardHeader>
-        <CardContent className="p-0">
+        <CardContent className='p-0'>
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Nazwa</TableHead>
                 <TableHead>Kategoria</TableHead>
-                <TableHead className="text-center">Ocena</TableHead>
-                <TableHead className="text-center">Opinie</TableHead>
-                <TableHead className="text-right">Cena</TableHead>
-                <TableHead className="text-center">Status</TableHead>
-                <TableHead className="w-[50px]" />
+                <TableHead className='text-center'>Ocena</TableHead>
+                <TableHead className='text-center'>Opinie</TableHead>
+                <TableHead className='text-right'>Cena</TableHead>
+                <TableHead className='text-center'>Status</TableHead>
+                <TableHead className='w-[50px]' />
               </TableRow>
             </TableHeader>
             <TableBody>
               {products.map((product) => (
                 <TableRow key={product.id}>
-                  <TableCell className="font-medium text-foreground">
+                  <TableCell className='font-medium text-foreground'>
                     {product.name}
                   </TableCell>
                   <TableCell>
-                    <Badge variant="secondary">{product.category}</Badge>
+                    <Badge variant='secondary'>{product.category}</Badge>
                   </TableCell>
-                  <TableCell className="text-center">{product.rating}</TableCell>
-                  <TableCell className="text-center">{product.reviews}</TableCell>
-                  <TableCell className="text-right font-mono">
+                  <TableCell className='text-center'>
+                    {product.rating}
+                  </TableCell>
+                  <TableCell className='text-center'>
+                    {product.reviews}
+                  </TableCell>
+                  <TableCell className='text-right font-mono'>
                     {formatPrice(product.price)}
                   </TableCell>
-                  <TableCell className="text-center">
+                  <TableCell className='text-center'>
                     {product.inStock ? (
-                      <Badge className="bg-primary/10 text-primary hover:bg-primary/20">
+                      <Badge className='bg-primary/10 text-primary hover:bg-primary/20'>
                         Dostepny
                       </Badge>
                     ) : (
-                      <Badge variant="destructive">Niedostepny</Badge>
+                      <Badge variant='destructive'>Niedostepny</Badge>
                     )}
                   </TableCell>
                   <TableCell>
                     {/* ========== Shadcn: Popover ========== */}
                     <Popover>
                       <PopoverTrigger asChild>
-                        <Button variant="ghost" size="sm">
+                        <Button variant='ghost' size='sm'>
                           Info
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent className="w-72">
-                        <div className="flex flex-col gap-2">
-                          <h4 className="font-semibold text-foreground">
+                      <PopoverContent className='w-72'>
+                        <div className='flex flex-col gap-2'>
+                          <h4 className='font-semibold text-foreground'>
                             {product.name}
                           </h4>
-                          <p className="text-sm text-muted-foreground">
+                          <p className='text-sm text-muted-foreground'>
                             {product.description}
                           </p>
-                          <div className="mt-2 grid grid-cols-2 gap-2">
+                          <div className='mt-2 grid grid-cols-2 gap-2'>
                             {Object.entries(product.specs)
                               .slice(0, 4)
                               .map(([key, value]) => (
                                 <div key={key}>
-                                  <p className="text-xs text-muted-foreground">{key}</p>
-                                  <p className="text-xs font-medium text-foreground">
+                                  <p className='text-xs text-muted-foreground'>
+                                    {key}
+                                  </p>
+                                  <p className='text-xs font-medium text-foreground'>
                                     {value}
                                   </p>
                                 </div>

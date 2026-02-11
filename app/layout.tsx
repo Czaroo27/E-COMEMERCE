@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Mono } from "next/font/google";
 import Script from "next/script";
@@ -30,18 +30,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pl">
+    <html lang='pl'>
       <body
         className={`${inter.variable} ${spaceMono.variable} font-sans antialiased`}
       >
         <CartProvider>
-          <div className="flex min-h-screen flex-col">
+          <div className='flex min-h-screen flex-col'>
             <Navbar />
-            <main className="flex-1">{children}</main>
+            <main className='flex-1'>{children}</main>
             <Footer />
           </div>
         </CartProvider>
-        <Script src="https://www.google.com/recaptcha/api.js" async defer />
+        <Script src='https://www.google.com/recaptcha/api.js' async defer />
       </body>
     </html>
   );
